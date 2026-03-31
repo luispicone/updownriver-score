@@ -14,6 +14,7 @@ La primera versión debe permitir:
 
 - crear una nueva partida
 - ingresar entre 3 y 7 jugadores
+- elegir la regla aplicable al cero fallado
 - recorrer automáticamente la secuencia completa de manos
 - cargar por cada jugador el número de bazas declaradas
 - marcar si el jugador acertó o no en esa mano
@@ -59,7 +60,7 @@ La partida sigue esta secuencia fija de cartas repartidas por mano:
 Total de manos:
 - **14 manos**
 
-### 4.3 Regla de puntuación
+### 4.3 Regla de puntuación base
 
 Para cada jugador en una mano:
 
@@ -77,22 +78,35 @@ Ejemplos:
 
 - suma **0**
 
-#### Si el jugador no acierta y había dicho 0
+### 4.4 Regla configurable para cero fallado
 
-- **resta 10**
+Al iniciar la partida, el usuario debe poder elegir una de estas dos opciones:
 
-### 4.4 Resumen de fórmula
+#### Opción A
+**Cero fallado resta 10 puntos**
+- si el jugador dijo `0` y no acertó:
+  - puntos = `-10`
+
+#### Opción B
+**Cero fallado no suma puntos**
+- si el jugador dijo `0` y no acertó:
+  - puntos = `0`
+
+### 4.5 Resumen de fórmula
 
 Dado:
 - `cartasMano`
 - `dijo`
 - `acerto`
+- `zeroMissRule`
 
 Reglas:
 
 - si `acerto = true` → puntos = `10 + cartasMano`
 - si `acerto = false` y `dijo > 0` → puntos = `0`
-- si `acerto = false` y `dijo = 0` → puntos = `-10`
+- si `acerto = false` y `dijo = 0`:
+  - si `zeroMissRule = "minus10"` → puntos = `-10`
+  - si `zeroMissRule = "zero"` → puntos = `0`
 
 ---
 
@@ -118,6 +132,7 @@ El usuario:
 - abre la app
 - crea una nueva partida
 - ingresa nombres de jugadores
+- define la regla para cero fallado
 - inicia la partida
 
 ### 6.2 Cargar mano
@@ -129,7 +144,7 @@ Para cada mano:
 
 ### 6.3 Calcular resultado
 Al cerrar la mano:
-- la app calcula el puntaje individual de cada jugador
+- la app calcula el puntaje individual de cada jugador según la configuración elegida al inicio
 - actualiza los acumulados
 - muestra el resultado de la mano
 - permite avanzar a la siguiente mano
@@ -165,11 +180,26 @@ Configurar una nueva partida.
 ### Campos
 - cantidad de jugadores
 - nombre de cada jugador
+- opción de regla para cero fallado
+
+### Regla configurable para cero fallado
+Debe existir un control claro para elegir una de estas dos opciones:
+
+- **Cero fallado resta 10 puntos**
+- **Cero fallado no suma puntos**
+
+### Recomendación de UI
+Usar radio buttons o selector simple, por ejemplo:
+
+**Regla para cero fallado**
+- `( ) Resta 10 puntos`
+- `( ) No suma puntos`
 
 ### Reglas
 - no permitir menos de 3 jugadores
 - no permitir más de 7 jugadores
 - todos los jugadores deben tener nombre
+- debe quedar seleccionada una regla para cero fallado
 
 ### Acción principal
 - botón **Comenzar partida**
@@ -292,6 +322,7 @@ Una futura versión puede permitir editar manos anteriores.
 ### 8.1 Validaciones al crear partida
 - cantidad de jugadores entre 3 y 7
 - todos los nombres obligatorios
+- debe seleccionarse una regla para cero fallado
 - no permitir comenzar partida si faltan datos
 
 ### 8.2 Validaciones al cerrar mano
@@ -340,6 +371,7 @@ Campos sugeridos:
 - `jugadores[]`
 - `manoActualIndex`
 - `secuenciaManos[]`
+- `zeroMissRule`
 - `manos[]`
 - `finalizada`
 
@@ -388,6 +420,7 @@ Evolución posible:
 
 - nueva partida
 - carga de entre 3 y 7 jugadores
+- configuración de regla para cero fallado
 - secuencia fija de 14 manos
 - carga por mano de “dijo” y “acertó/no acertó”
 - cálculo automático de puntaje
@@ -420,13 +453,14 @@ Evolución posible:
 El MVP se considera correcto si permite:
 
 1. crear una partida con entre 3 y 7 jugadores
-2. recorrer automáticamente las 14 manos con la secuencia definida
-3. cargar por cada jugador un número declarado y su estado de acierto
-4. calcular correctamente los puntos según las reglas definidas
-5. mantener acumulado total por jugador
-6. mostrar resultado de cada mano
-7. mostrar ranking final al terminar
-8. funcionar correctamente en navegador móvil
+2. elegir la regla del cero fallado al iniciar la partida
+3. recorrer automáticamente las 14 manos con la secuencia definida
+4. cargar por cada jugador un número declarado y su estado de acierto
+5. calcular correctamente los puntos según las reglas definidas y la configuración elegida
+6. mantener acumulado total por jugador
+7. mostrar resultado de cada mano
+8. mostrar ranking final al terminar
+9. funcionar correctamente en navegador móvil
 
 ---
 
@@ -438,6 +472,10 @@ La decisión funcional más importante es que por mano solo se registrará:
 - cuánto dijo cada jugador
 - si acertó o no
 
-Eso reduce fricción, simplifica la interfaz y elimina cálculos manuales molestos durante la partida.
+Además, al inicio de la partida se define una configuración funcional relevante:
+- si el cero fallado **resta 10 puntos**
+- o si el cero fallado **solo no suma**
+
+Eso mantiene la app flexible para adaptarse a distintas mesas sin complejizar la operación durante la partida.
 
 El proyecto es adecuado para un **MVP rápido**, sin backend y con foco total en experiencia móvil.
