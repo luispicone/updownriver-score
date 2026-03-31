@@ -14,6 +14,11 @@
   max-width: 720px;
 }
 
+.topbar-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .eyebrow {
   margin: 0 0 0.25rem;
   text-transform: uppercase;
@@ -146,7 +151,8 @@ h3 {
 }
 
 input[type='text'],
-input[type='number'] {
+input[type='number'],
+.select-input {
   width: 100%;
   box-sizing: border-box;
   border: 1px solid rgba(148, 163, 184, 0.25);
@@ -157,7 +163,8 @@ input[type='number'] {
   font-size: 1rem;
 }
 
-input:focus {
+input:focus,
+.select-input:focus {
   outline: 2px solid rgba(59, 130, 246, 0.45);
   border-color: rgba(59, 130, 246, 0.45);
 }
@@ -249,6 +256,37 @@ input:focus {
   font-size: 0.92rem;
 }
 
+.language-switcher {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.segmented-control {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 14px;
+  padding: 0.2rem;
+}
+
+.segmented-control button {
+  border: none;
+  background: transparent;
+  color: #cbd5e1;
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.segmented-control button.active {
+  background: rgba(37, 99, 235, 0.9);
+  color: white;
+}
+
 .player-card {
   padding: 1rem;
   display: grid;
@@ -258,7 +296,8 @@ input:focus {
 .player-card p,
 .result-card p,
 .history-row small,
-.result-stats small {
+.result-stats small,
+.history-dealer {
   color: #94a3b8;
 }
 
@@ -294,6 +333,27 @@ input:focus {
   position: sticky;
   bottom: 1rem;
   margin-top: 1rem;
+}
+
+.compact-button {
+  width: auto;
+  min-width: 110px;
+}
+
+.dealer-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  color: #dbeafe;
+}
+
+.dealer-banner.compact {
+  margin-bottom: 0.85rem;
 }
 
 .score-strip {
@@ -379,6 +439,13 @@ input:focus {
 .history-results {
   display: grid;
   gap: 0.75rem;
+}
+
+.history-dealer {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  color: #bfdbfe;
 }
 
 @media (min-width: 768px) {

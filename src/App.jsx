@@ -4,6 +4,125 @@ import './App.css'
 const HAND_SEQUENCE = [7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7]
 const STORAGE_KEY = 'updownriver-score-state'
 
+const translations = {
+  es: {
+    appTag: 'Scorekeeper mobile',
+    appTitle: 'Up Down River Score',
+    history: 'Historial',
+    controlFromPhone: 'Controlá toda la partida desde el celular',
+    homeDescription:
+      'Creá una partida, cargá lo que dijo cada jugador, marcá si acertó y dejá que la app calcule el puntaje automáticamente.',
+    newGame: 'Nueva partida',
+    continueCurrentGame: 'Continuar partida actual',
+    languageLabel: 'Idioma',
+    spanish: 'Español',
+    english: 'Inglés',
+    setupTag: 'Nueva partida',
+    setupTitle: 'Configuración inicial',
+    playersCount: 'jugadores',
+    playersLabel: 'Jugadores',
+    playerPlaceholder: 'Jugador',
+    addPlayer: 'Agregar jugador',
+    zeroMissRuleLabel: 'Regla para cero fallado',
+    zeroMissMinus10Title: 'Resta 10 puntos',
+    zeroMissMinus10Description: 'Si dijo 0 y no acertó, pierde 10 puntos.',
+    zeroMissZeroTitle: 'No suma puntos',
+    zeroMissZeroDescription: 'Si dijo 0 y no acertó, no gana ni pierde puntos.',
+    firstDealerLabel: 'Jugador que comienza dando cartas',
+    back: 'Volver',
+    startGame: 'Comenzar partida',
+    handOf: 'Mano',
+    cardsDealt: 'cartas repartidas',
+    zeroMissBadge: 'Cero fallado',
+    currentTotal: 'Total actual',
+    declaredTricks: 'Bazas que dijo',
+    hit: 'Acertó',
+    miss: 'No acertó',
+    closeHand: 'Cerrar mano',
+    handResultTag: 'Resultado de la mano',
+    declared: 'Dijo',
+    total: 'Total',
+    seeHistory: 'Ver historial',
+    nextHand: 'Siguiente mano',
+    seeFinalResult: 'Ver resultado final',
+    finishedGameTag: 'Partida finalizada',
+    finalRanking: 'Ranking final',
+    points: 'puntos',
+    repeatWithSamePlayers: 'Repetir con mismos jugadores',
+    fullHistory: 'Ver historial completo',
+    gameHistoryTag: 'Historial',
+    gameHistoryTitle: 'Detalle de la partida',
+    failed: 'Falló',
+    dealBy: 'Da cartas',
+    round: 'Ronda',
+    currentDealer: 'Reparte',
+    playersCountError: 'La partida debe tener entre 3 y 7 jugadores.',
+    playersNameError: 'Todos los jugadores deben tener nombre.',
+    uniqueNamesError: 'Los nombres de jugadores deben ser únicos.',
+    missingDeclaredError: 'Falta cargar cuánto dijo',
+    integerDeclaredError: 'debe tener un número entero.',
+    rangeDeclaredError: 'debe tener un valor entre',
+  },
+  en: {
+    appTag: 'Mobile scorekeeper',
+    appTitle: 'Up Down River Score',
+    history: 'History',
+    controlFromPhone: 'Run the whole match from your phone',
+    homeDescription:
+      'Create a match, enter each player’s bid, mark whether they hit it, and let the app calculate the score automatically.',
+    newGame: 'New game',
+    continueCurrentGame: 'Continue current game',
+    languageLabel: 'Language',
+    spanish: 'Spanish',
+    english: 'English',
+    setupTag: 'New game',
+    setupTitle: 'Initial setup',
+    playersCount: 'players',
+    playersLabel: 'Players',
+    playerPlaceholder: 'Player',
+    addPlayer: 'Add player',
+    zeroMissRuleLabel: 'Missed zero rule',
+    zeroMissMinus10Title: 'Subtract 10 points',
+    zeroMissMinus10Description: 'If a player says 0 and misses, they lose 10 points.',
+    zeroMissZeroTitle: 'No points awarded',
+    zeroMissZeroDescription: 'If a player says 0 and misses, they gain no points.',
+    firstDealerLabel: 'Player who starts dealing',
+    back: 'Back',
+    startGame: 'Start game',
+    handOf: 'Hand',
+    cardsDealt: 'cards dealt',
+    zeroMissBadge: 'Missed zero',
+    currentTotal: 'Current total',
+    declaredTricks: 'Declared tricks',
+    hit: 'Hit',
+    miss: 'Missed',
+    closeHand: 'Close hand',
+    handResultTag: 'Hand result',
+    declared: 'Declared',
+    total: 'Total',
+    seeHistory: 'See history',
+    nextHand: 'Next hand',
+    seeFinalResult: 'See final result',
+    finishedGameTag: 'Game finished',
+    finalRanking: 'Final ranking',
+    points: 'points',
+    repeatWithSamePlayers: 'Play again with same players',
+    fullHistory: 'See full history',
+    gameHistoryTag: 'History',
+    gameHistoryTitle: 'Match details',
+    failed: 'Missed',
+    dealBy: 'Dealer',
+    round: 'Round',
+    currentDealer: 'Dealer',
+    playersCountError: 'The match must have between 3 and 7 players.',
+    playersNameError: 'All players must have a name.',
+    uniqueNamesError: 'Player names must be unique.',
+    missingDeclaredError: 'Missing declared tricks for',
+    integerDeclaredError: 'must have an integer number.',
+    rangeDeclaredError: 'must have a value between',
+  },
+}
+
 const createId = () =>
   typeof crypto !== 'undefined' && crypto.randomUUID
     ? crypto.randomUUID()
@@ -14,6 +133,7 @@ const createEmptyPlayer = () => ({ id: createId(), name: '' })
 const initialSetupState = {
   players: [createEmptyPlayer(), createEmptyPlayer(), createEmptyPlayer()],
   zeroMissRule: 'minus10',
+  firstDealerId: '',
 }
 
 function calculatePoints({ declared, hit, handCards, zeroMissRule }) {
@@ -29,7 +149,7 @@ function rankPlayers(players) {
   })
 }
 
-function buildMatch(players, zeroMissRule) {
+function buildMatch(players, zeroMissRule, firstDealerId) {
   const sanitizedPlayers = players.map((player) => ({
     id: player.id,
     name: player.name.trim(),
@@ -52,6 +172,7 @@ function buildMatch(players, zeroMissRule) {
     zeroMissRule,
     sequence: HAND_SEQUENCE,
     currentHandIndex: 0,
+    firstDealerId,
     players: sanitizedPlayers,
     hands: [],
     status: 'playing',
@@ -69,12 +190,23 @@ function getStoredState() {
   }
 }
 
+function getDealerForHand(match) {
+  if (!match?.players?.length || !match.firstDealerId) return null
+  const firstIndex = match.players.findIndex((player) => player.id === match.firstDealerId)
+  if (firstIndex === -1) return null
+  const dealerIndex = (firstIndex + match.currentHandIndex) % match.players.length
+  return match.players[dealerIndex]
+}
+
 function App() {
   const [screen, setScreen] = useState('home')
   const [setup, setSetup] = useState(initialSetupState)
   const [match, setMatch] = useState(null)
   const [lastHandResult, setLastHandResult] = useState(null)
   const [error, setError] = useState('')
+  const [language, setLanguage] = useState('es')
+
+  const t = translations[language]
 
   useEffect(() => {
     const stored = getStoredState()
@@ -84,6 +216,7 @@ function App() {
     setSetup(stored.setup ?? initialSetupState)
     setMatch(stored.match ?? null)
     setLastHandResult(stored.lastHandResult ?? null)
+    setLanguage(stored.language ?? 'es')
   }, [])
 
   useEffect(() => {
@@ -92,27 +225,36 @@ function App() {
       setup,
       match,
       lastHandResult,
+      language,
     })
     localStorage.setItem(STORAGE_KEY, payload)
-  }, [screen, setup, match, lastHandResult])
+  }, [screen, setup, match, lastHandResult, language])
 
   const currentHandCards = match ? match.sequence[match.currentHandIndex] : null
   const ranking = useMemo(() => (match ? rankPlayers(match.players) : []), [match])
+  const currentDealer = useMemo(() => getDealerForHand(match), [match])
 
   const addPlayerField = () => {
     if (setup.players.length >= 7) return
+    const newPlayer = createEmptyPlayer()
     setSetup((current) => ({
       ...current,
-      players: [...current.players, createEmptyPlayer()],
+      players: [...current.players, newPlayer],
+      firstDealerId: current.firstDealerId || newPlayer.id,
     }))
   }
 
   const removePlayerField = (playerId) => {
     if (setup.players.length <= 3) return
-    setSetup((current) => ({
-      ...current,
-      players: current.players.filter((player) => player.id !== playerId),
-    }))
+    setSetup((current) => {
+      const remainingPlayers = current.players.filter((player) => player.id !== playerId)
+      return {
+        ...current,
+        players: remainingPlayers,
+        firstDealerId:
+          current.firstDealerId === playerId ? remainingPlayers[0]?.id ?? '' : current.firstDealerId,
+      }
+    })
   }
 
   const updatePlayerName = (playerId, value) => {
@@ -121,6 +263,7 @@ function App() {
       players: current.players.map((player) =>
         player.id === playerId ? { ...player, name: value } : player,
       ),
+      firstDealerId: current.firstDealerId || playerId,
     }))
   }
 
@@ -131,22 +274,27 @@ function App() {
     }))
 
     if (trimmedPlayers.length < 3 || trimmedPlayers.length > 7) {
-      setError('La partida debe tener entre 3 y 7 jugadores.')
+      setError(t.playersCountError)
       return
     }
 
     if (trimmedPlayers.some((player) => !player.name)) {
-      setError('Todos los jugadores deben tener nombre.')
+      setError(t.playersNameError)
       return
     }
 
     const uniqueNames = new Set(trimmedPlayers.map((player) => player.name.toLowerCase()))
     if (uniqueNames.size !== trimmedPlayers.length) {
-      setError('Los nombres de jugadores deben ser únicos.')
+      setError(t.uniqueNamesError)
       return
     }
 
-    const newMatch = buildMatch(trimmedPlayers, setup.zeroMissRule)
+    if (!setup.firstDealerId) {
+      setError(language === 'es' ? 'Debés indicar quién comienza dando cartas.' : 'You must choose the first dealer.')
+      return
+    }
+
+    const newMatch = buildMatch(trimmedPlayers, setup.zeroMissRule, setup.firstDealerId)
     setMatch(newMatch)
     setLastHandResult(null)
     setError('')
@@ -176,10 +324,16 @@ function App() {
       .map((player) => {
         const input = match.currentInputs[player.id]
         const declaredValue = Number(input.declared)
-        if (input.declared === '') return `Falta cargar cuánto dijo ${player.name}.`
-        if (!Number.isInteger(declaredValue)) return `${player.name} debe tener un número entero.`
+        if (input.declared === '') {
+          return language === 'es'
+            ? `${t.missingDeclaredError} ${player.name}.`
+            : `${t.missingDeclaredError} ${player.name}.`
+        }
+        if (!Number.isInteger(declaredValue)) {
+          return `${player.name} ${t.integerDeclaredError}`
+        }
         if (declaredValue < 0 || declaredValue > currentHandCards) {
-          return `${player.name} debe tener un valor entre 0 y ${currentHandCards}.`
+          return `${player.name} ${t.rangeDeclaredError} 0 y ${currentHandCards}.`
         }
         return null
       })
@@ -207,10 +361,12 @@ function App() {
     })
 
     const playerMap = new Map(updatedPlayers.map((player) => [player.id, player]))
+    const dealer = getDealerForHand(match)
 
     const handResult = {
       number: match.currentHandIndex + 1,
       handCards: currentHandCards,
+      dealerName: dealer?.name ?? '',
       results: match.players.map((player) => {
         const input = match.currentInputs[player.id]
         const declared = Number(input.declared)
@@ -279,11 +435,13 @@ function App() {
   const restartWithSamePlayers = () => {
     if (!match) return
     const players = match.players.map((player) => ({ id: createId(), name: player.name }))
+    const firstDealerId = players[0]?.id ?? ''
     setSetup({
       players,
       zeroMissRule: match.zeroMissRule,
+      firstDealerId,
     })
-    const restartedMatch = buildMatch(players, match.zeroMissRule)
+    const restartedMatch = buildMatch(players, match.zeroMissRule, firstDealerId)
     setMatch(restartedMatch)
     setLastHandResult(null)
     setError('')
@@ -294,31 +452,50 @@ function App() {
     <div className="app-shell">
       <header className="topbar">
         <div>
-          <p className="eyebrow">Scorekeeper mobile</p>
-          <h1>Up Down River Score</h1>
+          <p className="eyebrow">{t.appTag}</p>
+          <h1>{t.appTitle}</h1>
         </div>
-        {match ? (
-          <button type="button" className="ghost-button" onClick={() => setScreen('history')}>
-            Historial
-          </button>
-        ) : null}
+        <div className="topbar-actions">
+          {match ? (
+            <button type="button" className="ghost-button compact-button" onClick={() => setScreen('history')}>
+              {t.history}
+            </button>
+          ) : null}
+        </div>
       </header>
 
       {error ? <div className="alert-error">{error}</div> : null}
 
       {screen === 'home' && (
         <section className="panel hero-panel">
-          <h2>Controlá toda la partida desde el celular</h2>
-          <p>
-            Creá una partida, cargá lo que dijo cada jugador, marcá si acertó y dejá que la app
-            calcule el puntaje automáticamente.
-          </p>
+          <div className="language-switcher">
+            <span>{t.languageLabel}</span>
+            <div className="segmented-control">
+              <button
+                type="button"
+                className={language === 'es' ? 'active' : ''}
+                onClick={() => setLanguage('es')}
+              >
+                {t.spanish}
+              </button>
+              <button
+                type="button"
+                className={language === 'en' ? 'active' : ''}
+                onClick={() => setLanguage('en')}
+              >
+                {t.english}
+              </button>
+            </div>
+          </div>
+
+          <h2>{t.controlFromPhone}</h2>
+          <p>{t.homeDescription}</p>
           <button type="button" className="primary-button" onClick={() => setScreen('setup')}>
-            Nueva partida
+            {t.newGame}
           </button>
           {match ? (
             <button type="button" className="secondary-button" onClick={() => setScreen('hand')}>
-              Continuar partida actual
+              {t.continueCurrentGame}
             </button>
           ) : null}
         </section>
@@ -328,14 +505,14 @@ function App() {
         <section className="panel">
           <div className="section-header">
             <div>
-              <p className="eyebrow">Nueva partida</p>
-              <h2>Configuración inicial</h2>
+              <p className="eyebrow">{t.setupTag}</p>
+              <h2>{t.setupTitle}</h2>
             </div>
-            <span className="badge">{setup.players.length} jugadores</span>
+            <span className="badge">{setup.players.length} {t.playersCount}</span>
           </div>
 
           <div className="form-block">
-            <label className="field-label">Jugadores</label>
+            <label className="field-label">{t.playersLabel}</label>
             <div className="players-list">
               {setup.players.map((player, index) => (
                 <div className="player-row" key={player.id}>
@@ -344,7 +521,7 @@ function App() {
                     type="text"
                     value={player.name}
                     onChange={(event) => updatePlayerName(player.id, event.target.value)}
-                    placeholder={`Jugador ${index + 1}`}
+                    placeholder={`${t.playerPlaceholder} ${index + 1}`}
                   />
                   <button
                     type="button"
@@ -363,12 +540,28 @@ function App() {
               onClick={addPlayerField}
               disabled={setup.players.length >= 7}
             >
-              Agregar jugador
+              {t.addPlayer}
             </button>
           </div>
 
           <div className="form-block">
-            <label className="field-label">Regla para cero fallado</label>
+            <label className="field-label">{t.firstDealerLabel}</label>
+            <select
+              className="select-input"
+              value={setup.firstDealerId}
+              onChange={(event) => setSetup((current) => ({ ...current, firstDealerId: event.target.value }))}
+            >
+              <option value="">{language === 'es' ? 'Seleccionar jugador' : 'Select player'}</option>
+              {setup.players.map((player, index) => (
+                <option key={player.id} value={player.id}>
+                  {player.name.trim() || `${t.playerPlaceholder} ${index + 1}`}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-block">
+            <label className="field-label">{t.zeroMissRuleLabel}</label>
             <div className="radio-group">
               <label className="radio-card">
                 <input
@@ -378,8 +571,8 @@ function App() {
                   onChange={() => setSetup((current) => ({ ...current, zeroMissRule: 'minus10' }))}
                 />
                 <div>
-                  <strong>Resta 10 puntos</strong>
-                  <span>Si dijo 0 y no acertó, pierde 10 puntos.</span>
+                  <strong>{t.zeroMissMinus10Title}</strong>
+                  <span>{t.zeroMissMinus10Description}</span>
                 </div>
               </label>
               <label className="radio-card">
@@ -390,8 +583,8 @@ function App() {
                   onChange={() => setSetup((current) => ({ ...current, zeroMissRule: 'zero' }))}
                 />
                 <div>
-                  <strong>No suma puntos</strong>
-                  <span>Si dijo 0 y no acertó, no gana ni pierde puntos.</span>
+                  <strong>{t.zeroMissZeroTitle}</strong>
+                  <span>{t.zeroMissZeroDescription}</span>
                 </div>
               </label>
             </div>
@@ -399,10 +592,10 @@ function App() {
 
           <div className="actions">
             <button type="button" className="ghost-button" onClick={() => setScreen('home')}>
-              Volver
+              {t.back}
             </button>
             <button type="button" className="primary-button" onClick={startMatch}>
-              Comenzar partida
+              {t.startGame}
             </button>
           </div>
         </section>
@@ -412,13 +605,21 @@ function App() {
         <section className="panel">
           <div className="section-header">
             <div>
-              <p className="eyebrow">Mano {match.currentHandIndex + 1} de {match.sequence.length}</p>
-              <h2>{currentHandCards} cartas repartidas</h2>
+              <p className="eyebrow">
+                {t.handOf} {match.currentHandIndex + 1} / {match.sequence.length}
+              </p>
+              <h2>{currentHandCards} {t.cardsDealt}</h2>
             </div>
             <span className="badge badge-accent">
-              Cero fallado: {match.zeroMissRule === 'minus10' ? '−10' : '0'}
+              {t.zeroMissBadge}: {match.zeroMissRule === 'minus10' ? '−10' : '0'}
             </span>
           </div>
+
+          {currentDealer ? (
+            <div className="dealer-banner">
+              <strong>{t.currentDealer}:</strong> <span>{currentDealer.name}</span>
+            </div>
+          ) : null}
 
           <div className="score-strip">
             {ranking.map((player) => (
@@ -437,12 +638,14 @@ function App() {
                   <div className="player-card-header">
                     <div>
                       <h3>{player.name}</h3>
-                      <p>Total actual: {player.total} pts</p>
+                      <p>
+                        {t.currentTotal}: {player.total} pts
+                      </p>
                     </div>
                   </div>
 
                   <label className="field-label" htmlFor={`declared-${player.id}`}>
-                    Bazas que dijo
+                    {t.declaredTricks}
                   </label>
                   <input
                     id={`declared-${player.id}`}
@@ -461,7 +664,7 @@ function App() {
                     onClick={() => updateHandInput(player.id, 'hit', !input.hit)}
                   >
                     <span className="toggle-dot" />
-                    {input.hit ? 'Acertó' : 'No acertó'}
+                    {input.hit ? t.hit : t.miss}
                   </button>
                 </article>
               )
@@ -469,7 +672,7 @@ function App() {
           </div>
 
           <button type="button" className="primary-button sticky-button" onClick={closeHand}>
-            Cerrar mano
+            {t.closeHand}
           </button>
         </section>
       )}
@@ -478,26 +681,38 @@ function App() {
         <section className="panel">
           <div className="section-header">
             <div>
-              <p className="eyebrow">Resultado de la mano {lastHandResult.number}</p>
-              <h2>{lastHandResult.handCards} cartas</h2>
+              <p className="eyebrow">
+                {t.handResultTag} {lastHandResult.number}
+              </p>
+              <h2>{lastHandResult.handCards} {t.cardsDealt}</h2>
             </div>
           </div>
+
+          {lastHandResult.dealerName ? (
+            <div className="dealer-banner compact">
+              <strong>{t.dealBy}:</strong> <span>{lastHandResult.dealerName}</span>
+            </div>
+          ) : null}
 
           <div className="results-list">
             {lastHandResult.results.map((result) => (
               <article className="result-card" key={result.playerId}>
                 <div>
                   <h3>{result.playerName}</h3>
-                  <p>Dijo: {result.declared}</p>
+                  <p>
+                    {t.declared}: {result.declared}
+                  </p>
                 </div>
                 <div className="result-stats">
                   <span className={`status-badge ${result.hit ? 'ok' : 'off'}`}>
-                    {result.hit ? 'Acertó' : 'No acertó'}
+                    {result.hit ? t.hit : t.miss}
                   </span>
                   <strong className={result.points > 0 ? 'positive' : result.points < 0 ? 'negative' : ''}>
                     {result.points > 0 ? `+${result.points}` : result.points}
                   </strong>
-                  <small>Total: {result.totalAfterHand}</small>
+                  <small>
+                    {t.total}: {result.totalAfterHand}
+                  </small>
                 </div>
               </article>
             ))}
@@ -505,10 +720,10 @@ function App() {
 
           <div className="actions">
             <button type="button" className="ghost-button" onClick={() => setScreen('history')}>
-              Ver historial
+              {t.seeHistory}
             </button>
             <button type="button" className="primary-button" onClick={goToNextStep}>
-              {match?.status === 'finished' ? 'Ver resultado final' : 'Siguiente mano'}
+              {match?.status === 'finished' ? t.seeFinalResult : t.nextHand}
             </button>
           </div>
         </section>
@@ -518,8 +733,8 @@ function App() {
         <section className="panel">
           <div className="section-header">
             <div>
-              <p className="eyebrow">Partida finalizada</p>
-              <h2>Ranking final</h2>
+              <p className="eyebrow">{t.finishedGameTag}</p>
+              <h2>{t.finalRanking}</h2>
             </div>
           </div>
 
@@ -529,7 +744,9 @@ function App() {
                 <span className="ranking-position">#{index + 1}</span>
                 <div>
                   <h3>{player.name}</h3>
-                  <p>{player.total} puntos</p>
+                  <p>
+                    {player.total} {t.points}
+                  </p>
                 </div>
               </article>
             ))}
@@ -537,13 +754,13 @@ function App() {
 
           <div className="actions stacked">
             <button type="button" className="primary-button" onClick={restartWithSamePlayers}>
-              Repetir con mismos jugadores
+              {t.repeatWithSamePlayers}
             </button>
             <button type="button" className="secondary-button" onClick={() => setScreen('history')}>
-              Ver historial completo
+              {t.fullHistory}
             </button>
             <button type="button" className="ghost-button" onClick={resetAll}>
-              Nueva partida
+              {t.newGame}
             </button>
           </div>
         </section>
@@ -553,8 +770,8 @@ function App() {
         <section className="panel">
           <div className="section-header">
             <div>
-              <p className="eyebrow">Historial</p>
-              <h2>Detalle de la partida</h2>
+              <p className="eyebrow">{t.gameHistoryTag}</p>
+              <h2>{t.gameHistoryTitle}</h2>
             </div>
           </div>
 
@@ -562,22 +779,35 @@ function App() {
             {match.hands.map((hand) => (
               <article className="history-card" key={hand.number}>
                 <div className="history-header">
-                  <strong>Mano {hand.number}</strong>
-                  <span>{hand.handCards} cartas</span>
+                  <strong>
+                    {t.round} {hand.number}
+                  </strong>
+                  <span>
+                    {hand.handCards} {t.cardsDealt}
+                  </span>
                 </div>
+                {hand.dealerName ? (
+                  <div className="history-dealer">
+                    <strong>{t.dealBy}:</strong> <span>{hand.dealerName}</span>
+                  </div>
+                ) : null}
                 <div className="history-results">
                   {hand.results.map((result) => (
                     <div className="history-row" key={result.playerId}>
                       <div>
                         <strong>{result.playerName}</strong>
-                        <small>Dijo {result.declared}</small>
+                        <small>
+                          {t.declared} {result.declared}
+                        </small>
                       </div>
                       <div className="history-right">
-                        <span>{result.hit ? 'Acertó' : 'Falló'}</span>
+                        <span>{result.hit ? t.hit : t.failed}</span>
                         <strong className={result.points > 0 ? 'positive' : result.points < 0 ? 'negative' : ''}>
                           {result.points > 0 ? `+${result.points}` : result.points}
                         </strong>
-                        <small>Total {result.totalAfterHand}</small>
+                        <small>
+                          {t.total} {result.totalAfterHand}
+                        </small>
                       </div>
                     </div>
                   ))}
@@ -592,7 +822,7 @@ function App() {
               className="ghost-button"
               onClick={() => setScreen(match.status === 'finished' ? 'final' : 'hand')}
             >
-              Volver
+              {t.back}
             </button>
           </div>
         </section>
