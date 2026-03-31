@@ -139,7 +139,10 @@ const initialSetupState = {
 }
 
 function calculatePoints({ declared, hit, handCards, zeroMissRule }) {
-  if (hit) return 10 + handCards
+  if (hit) {
+    if (declared === 0) return 10 + handCards
+    return 10 + declared
+  }
   if (declared === 0) return zeroMissRule === 'minus10' ? -10 : 0
   return 0
 }

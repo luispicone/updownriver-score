@@ -73,8 +73,19 @@ Total number of hands:
 
 For each player in a hand:
 
-#### If the player hits their bid
-Regardless of whether they declared 0 or a higher number:
+#### If the player declared a number greater than 0 and hits it
+
+- they score **10 + declared tricks**
+
+Examples:
+- if the player declared 3 and hits it: **13 points**
+- if the player declared 1 and hits it: **11 points**
+
+#### If the player declared a number greater than 0 and misses
+
+- they score **0**
+
+#### If the player declared 0 and hits it
 
 - they score **10 + number of cards dealt in that hand**
 
@@ -82,10 +93,6 @@ Examples:
 - hand with 7 cards: **17 points**
 - hand with 4 cards: **14 points**
 - hand with 1 card: **11 points**
-
-#### If the player misses and had declared a number greater than 0
-
-- they score **0**
 
 ### 4.4 Configurable missed zero rule
 
@@ -111,7 +118,8 @@ Given:
 
 Rules:
 
-- if `hit = true` → points = `10 + handCards`
+- if `hit = true` and `declared > 0` → points = `10 + declared`
+- if `hit = true` and `declared = 0` → points = `10 + handCards`
 - if `hit = false` and `declared > 0` → points = `0`
 - if `hit = false` and `declared = 0`:
   - if `zeroMissRule = "minus10"` → points = `-10`

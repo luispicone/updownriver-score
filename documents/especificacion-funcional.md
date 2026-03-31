@@ -73,8 +73,19 @@ Total de manos:
 
 Para cada jugador en una mano:
 
-#### Si el jugador acierta
-Sin importar si dijo 0 o un número mayor a 0:
+#### Si el jugador dijo un número mayor a 0 y acierta
+
+- suma **10 + cantidad de bazas que dijo**
+
+Ejemplos:
+- si dijo 3 y acierta: suma **13**
+- si dijo 1 y acierta: suma **11**
+
+#### Si el jugador dijo un número mayor a 0 y no acierta
+
+- suma **0**
+
+#### Si el jugador dijo 0 y acierta
 
 - suma **10 + cantidad de cartas repartidas en esa mano**
 
@@ -82,10 +93,6 @@ Ejemplos:
 - en mano de 7 cartas: suma **17**
 - en mano de 4 cartas: suma **14**
 - en mano de 1 carta: suma **11**
-
-#### Si el jugador no acierta y había dicho un número mayor a 0
-
-- suma **0**
 
 ### 4.4 Regla configurable para cero fallado
 
@@ -111,7 +118,8 @@ Dado:
 
 Reglas:
 
-- si `acerto = true` → puntos = `10 + cartasMano`
+- si `acerto = true` y `dijo > 0` → puntos = `10 + dijo`
+- si `acerto = true` y `dijo = 0` → puntos = `10 + cartasMano`
 - si `acerto = false` y `dijo > 0` → puntos = `0`
 - si `acerto = false` y `dijo = 0`:
   - si `zeroMissRule = "minus10"` → puntos = `-10`
