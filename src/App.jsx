@@ -14,6 +14,7 @@ const translations = {
       'Creá una partida, cargá lo que dijo cada jugador, marcá si acertó y dejá que la app calcule el puntaje automáticamente.',
     newGame: 'Nueva partida',
     continueCurrentGame: 'Continuar partida actual',
+    startFreshGame: 'Empezar nueva desde cero',
     languageLabel: 'Idioma',
     spanish: 'Español',
     english: 'Inglés',
@@ -72,6 +73,7 @@ const translations = {
       'Create a match, enter each player’s bid, mark whether they hit it, and let the app calculate the score automatically.',
     newGame: 'New game',
     continueCurrentGame: 'Continue current game',
+    startFreshGame: 'Start fresh game',
     languageLabel: 'Language',
     spanish: 'Spanish',
     english: 'English',
@@ -494,9 +496,14 @@ function App() {
             {t.newGame}
           </button>
           {match ? (
-            <button type="button" className="secondary-button" onClick={() => setScreen('hand')}>
-              {t.continueCurrentGame}
-            </button>
+            <>
+              <button type="button" className="secondary-button" onClick={() => setScreen('hand')}>
+                {t.continueCurrentGame}
+              </button>
+              <button type="button" className="ghost-button" onClick={resetAll}>
+                {t.startFreshGame}
+              </button>
+            </>
           ) : null}
         </section>
       )}
@@ -671,9 +678,14 @@ function App() {
             })}
           </div>
 
-          <button type="button" className="primary-button sticky-button" onClick={closeHand}>
-            {t.closeHand}
-          </button>
+          <div className="actions">
+            <button type="button" className="primary-button sticky-button" onClick={closeHand}>
+              {t.closeHand}
+            </button>
+            <button type="button" className="ghost-button" onClick={resetAll}>
+              {t.startFreshGame}
+            </button>
+          </div>
         </section>
       )}
 
@@ -721,6 +733,9 @@ function App() {
           <div className="actions">
             <button type="button" className="ghost-button" onClick={() => setScreen('history')}>
               {t.seeHistory}
+            </button>
+            <button type="button" className="ghost-button" onClick={resetAll}>
+              {t.startFreshGame}
             </button>
             <button type="button" className="primary-button" onClick={goToNextStep}>
               {match?.status === 'finished' ? t.seeFinalResult : t.nextHand}
@@ -823,6 +838,9 @@ function App() {
               onClick={() => setScreen(match.status === 'finished' ? 'final' : 'hand')}
             >
               {t.back}
+            </button>
+            <button type="button" className="ghost-button" onClick={resetAll}>
+              {t.startFreshGame}
             </button>
           </div>
         </section>
