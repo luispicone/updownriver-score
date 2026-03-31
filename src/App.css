@@ -457,3 +457,13 @@ input:focus,
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+
+.app-footer {
+  max-width: 720px;
+  margin: 1rem auto 0;
+  padding: 0.85rem 1rem 0.25rem;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}

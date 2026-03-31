@@ -845,6 +845,8 @@ function App() {
           </div>
         </section>
       )}
+
+      <footer className="app-footer">Copyright: Morales-Wise-Picone Team</footer>
     </div>
   )
 }
