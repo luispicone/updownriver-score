@@ -1,12 +1,33 @@
 # UpDownRiver Score
 
-Mobile application for managing the score of Up Down River matches.
+Aplicación web mobile para llevar el puntaje de partidas de Up Down River.
 
-## Functional Specification
-The user will be able to manage the game score for Up Down River matches.
+## Estado actual
 
-## Credits
-- **Original Idea:** Mariano Morales
-- **Project Leader:** Luis Picone
-- **Development:** Maxwell Smart
-- **Testing Team:** Mariano Morales, Marc Wise, Luis Picone
+MVP en desarrollo con foco en:
+
+- creación de partida
+- registro de 3 a 7 jugadores
+- configuración de regla para cero fallado
+- carga de manos con valor declarado y estado de acierto
+- cálculo automático de puntaje
+- historial y ranking final
+
+## Scripts
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
+
+## Documentación
+
+- `documents/especificacion-funcional.md`
+
+## Stack
+
+- React
+- Vite
+- CSS mobile-first
