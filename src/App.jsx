@@ -206,7 +206,7 @@ function App() {
   const [match, setMatch] = useState(null)
   const [lastHandResult, setLastHandResult] = useState(null)
   const [error, setError] = useState('')
-  const [language, setLanguage] = useState('es')
+  const [language, setLanguage] = useState('en')
 
   const t = translations[language]
 
@@ -218,7 +218,7 @@ function App() {
     setSetup(stored.setup ?? initialSetupState)
     setMatch(stored.match ?? null)
     setLastHandResult(stored.lastHandResult ?? null)
-    setLanguage(stored.language ?? 'es')
+    setLanguage(stored.language ?? 'en')
   }, [])
 
   useEffect(() => {
