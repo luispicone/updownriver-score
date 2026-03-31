@@ -1,8 +1,8 @@
 # Project: updownriver-score
 
 ## Context
-#**Project:** Up-Down-River Score Mobile App
-#**Functional Specification:** The user will be able to manage the game score for Up Down River matches
+##**Project:** Up-Down-River Score Mobile App
+##**Functional Specification:** The user will be able to manage the game score for Up Down River matches
 
 ---
 
