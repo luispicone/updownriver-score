@@ -3,7 +3,7 @@ import './App.css'
 
 const HAND_SEQUENCE = [7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7]
 const STORAGE_KEY = 'updownriver-score-state'
-const APP_VERSION = '2.1'
+const APP_VERSION = '2.2'
 
 const translations = {
   es: {
@@ -447,6 +447,43 @@ function App() {
     setScreen('hand')
   }
 
+
+  const reopenLastHand = () => {
+    if (!match || !lastHandResult) return
+
+    const previousHandIndex = Math.max(match.currentHandIndex - 1, 0)
+    const previousPlayers = match.players.map((player) => {
+      const result = lastHandResult.results.find((item) => item.playerId === player.id)
+      return {
+        ...player,
+        total: result ? player.total - result.points : player.total,
+      }
+    })
+
+    const restoredInputs = Object.fromEntries(
+      lastHandResult.results.map((result) => [
+        result.playerId,
+        {
+          declared: String(result.declared),
+          hit: result.hit,
+        },
+      ]),
+    )
+
+    setMatch({
+      ...match,
+      players: previousPlayers,
+      hands: match.hands.slice(0, -1),
+      currentHandIndex: previousHandIndex,
+      currentInputs: restoredInputs,
+      status: 'playing',
+    })
+
+    setLastHandResult(null)
+    setError('')
+    setScreen('hand')
+  }
+
   const resetAll = () => {
     setSetup(initialSetupState)
     setMatch(null)
@@ -785,12 +822,15 @@ function App() {
             ))}
           </div>
 
-          <div className="actions actions-3">
+          <div className="actions actions-4">
             <button type="button" className="ghost-button" onClick={() => setScreen('history')}>
               {t.seeHistory}
             </button>
             <button type="button" className="ghost-button" onClick={resetAll}>
               {t.startFreshGame}
+            </button>
+            <button type="button" className="ghost-button" onClick={reopenLastHand}>
+              {t.back}
             </button>
             <button type="button" className="primary-button" onClick={goToNextStep}>
               {match?.status === 'finished' ? t.seeFinalResult : t.nextHand}
