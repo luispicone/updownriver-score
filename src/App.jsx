@@ -3,7 +3,7 @@ import './App.css'
 
 const HAND_SEQUENCE = [7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7]
 const STORAGE_KEY = 'updownriver-score-state'
-const APP_VERSION = '2.0'
+const APP_VERSION = '2.1'
 
 const translations = {
   es: {

@@ -9,12 +9,20 @@
   font-size: 1.08rem;
 }
 
-.app-shell.font-large .declared-input {
-  font-size: 1.75rem;
+.app-shell.font-large .declared-input,
+.app-shell.font-large input[type='text'],
+.app-shell.font-large .select-input {
+  font-size: 1.2rem;
 }
 
 .app-shell.font-xlarge {
   font-size: 1.18rem;
+}
+
+.app-shell.font-xlarge .declared-input,
+.app-shell.font-xlarge input[type='text'],
+.app-shell.font-xlarge .select-input {
+  font-size: 1.35rem;
 }
 
 .app-shell.font-xlarge .declared-input {
