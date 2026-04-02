@@ -15,6 +15,7 @@ The current version allows users to:
 - create a new game
 - enter between 3 and 7 players
 - choose the UI language (**Spanish** or **English**) from the home screen
+- choose a global font size option (**normal**, **large**, **extra large**)
 - keep **English as the default language** when the app opens
 - choose the rule applied to a missed zero bid
 - define which player starts as dealer
@@ -29,6 +30,7 @@ The current version allows users to:
 - restart the app and begin a brand-new match at any time
 - persist the in-progress match locally
 - show a persistent copyright footer
+- show the current version number in the footer
 
 The current version **does not include**:
 
@@ -149,6 +151,7 @@ The user:
 - opens the app
 - sees the home screen
 - can choose the language (**Español** or **English**)
+- can choose the font size (**normal**, **large**, **extra large**)
 - can start a new game
 - if there is an in-progress game, can continue it or discard it and start from scratch
 
@@ -194,6 +197,7 @@ Entry point to the application.
 ### Content
 - app name
 - language selector
+- global font size selector
 - **New game** button
 - if a saved game exists:
   - button to continue current game
@@ -262,7 +266,7 @@ Each player is shown in a card or row with:
 - player name
 - current total
 - numeric field: **Declared tricks**
-- state control: **Hit / Missed**
+- state control: **Hit / Missed**, positioned to the right of the numeric field to keep the list more compact and tidy
 
 ### Per-player interaction
 
@@ -414,7 +418,8 @@ Therefore the UX must prioritize:
 - always-visible totals where useful
 - immediate color feedback
 - simple language switcher on home screen
-- persistent footer with copyright
+- global font size selector on the home screen
+- persistent footer with copyright and visible version
 
 ---
 
@@ -502,11 +507,13 @@ Suggested fields:
 - per-hand history
 - final ranking
 - Spanish / English language selector
+- global font size selector (normal, large, extra large)
 - English as default language
 - automatic local persistence
 - ability to start a fresh game from zero at any time
 - persistent footer with text:
   - **Copyright: Morales-Wise-Picone Team**
+  - **Version 1.5**
 
 ---
 
@@ -552,6 +559,8 @@ The current version is considered correct if it allows:
 14. allowing a fresh restart from zero at any time
 15. working correctly in mobile and desktop browsers
 16. being deployable on Vercel
+17. allowing font size changes for accessibility
+18. showing the current version in the footer
 
 ---
 

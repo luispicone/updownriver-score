@@ -15,6 +15,7 @@ La versión actual permite:
 - crear una nueva partida
 - ingresar entre 3 y 7 jugadores
 - elegir el idioma de la interfaz (**español** o **inglés**) desde la pantalla principal
+- elegir una opción global para tamaño de fuente (**normal**, **grande**, **extra grande**)
 - dejar **inglés como idioma por defecto** al abrir la app
 - elegir la regla aplicable al cero fallado
 - indicar qué jugador comienza dando cartas
@@ -29,6 +30,7 @@ La versión actual permite:
 - reiniciar la app y comenzar una partida nueva desde cero en cualquier momento
 - persistir localmente el estado de la partida en curso
 - mostrar un footer persistente con copyright
+- mostrar número de versión visible en el footer
 
 La versión actual **no incluye**:
 
@@ -149,6 +151,7 @@ El usuario:
 - abre la app
 - ve la pantalla principal
 - puede elegir idioma (**Español** o **English**)
+- puede elegir tamaño de fuente (**normal**, **grande**, **extra grande**)
 - puede comenzar una nueva partida
 - si existe una partida en curso, puede continuarla o descartarla y empezar una nueva desde cero
 
@@ -194,6 +197,7 @@ Punto de entrada de la aplicación.
 ### Contenido
 - nombre de la app
 - selector de idioma
+- selector global de tamaño de fuente
 - botón **Nueva partida**
 - si hay una partida guardada:
   - botón para continuar partida actual
@@ -262,7 +266,7 @@ Cada jugador se muestra en una tarjeta o fila con:
 - nombre del jugador
 - total actual
 - campo numérico: **Dijo / Declared tricks**
-- control de estado: **Acertó / No acertó** o **Hit / Missed**
+- control de estado: **Acertó / No acertó** o **Hit / Missed**, ubicado a la derecha del input numérico para formar una lista más compacta y prolija
 
 ### Interacción por jugador
 
@@ -502,11 +506,13 @@ Campos sugeridos:
 - historial por mano
 - ranking final
 - selector de idioma español / inglés
+- selector global de tamaño de fuente (normal, grande, extra grande)
 - inglés por defecto
 - persistencia local automática
 - opción para reiniciar la partida desde cero en cualquier momento
 - footer persistente con texto:
   - **Copyright: Morales-Wise-Picone Team**
+  - **Versión 1.5**
 
 ---
 
@@ -552,6 +558,8 @@ La versión actual se considera correcta si permite:
 14. permitir iniciar una nueva partida desde cero en cualquier momento
 15. funcionar correctamente en navegador móvil y desktop
 16. poder desplegarse correctamente en Vercel
+17. permitir cambiar el tamaño de fuente para accesibilidad
+18. mostrar la versión actual en el footer
 
 ---
 

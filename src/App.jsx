@@ -3,6 +3,7 @@ import './App.css'
 
 const HAND_SEQUENCE = [7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7]
 const STORAGE_KEY = 'updownriver-score-state'
+const APP_VERSION = '1.5'
 
 const translations = {
   es: {
@@ -18,6 +19,10 @@ const translations = {
     languageLabel: 'Idioma',
     spanish: 'Español',
     english: 'Inglés',
+    fontSizeLabel: 'Tamaño de fuente',
+    fontNormal: 'Normal',
+    fontLarge: 'Grande',
+    fontExtraLarge: 'Extra grande',
     setupTag: 'Nueva partida',
     setupTitle: 'Configuración inicial',
     playersCount: 'jugadores',
@@ -30,6 +35,7 @@ const translations = {
     zeroMissZeroTitle: 'No suma puntos',
     zeroMissZeroDescription: 'Si dijo 0 y no acertó, no gana ni pierde puntos.',
     firstDealerLabel: 'Jugador que comienza dando cartas',
+    selectPlayer: 'Seleccionar jugador',
     back: 'Volver',
     startGame: 'Comenzar partida',
     handOf: 'Mano',
@@ -54,7 +60,7 @@ const translations = {
     gameHistoryTag: 'Historial',
     gameHistoryTitle: 'Detalle de la partida',
     failed: 'Falló',
-    dealBy: 'Da cartas',
+    dealBy: 'Reparte',
     round: 'Ronda',
     currentDealer: 'Reparte',
     playersCountError: 'La partida debe tener entre 3 y 7 jugadores.',
@@ -63,6 +69,9 @@ const translations = {
     missingDeclaredError: 'Falta cargar cuánto dijo',
     integerDeclaredError: 'debe tener un número entero.',
     rangeDeclaredError: 'debe tener un valor entre',
+    firstDealerError: 'Debés indicar quién comienza dando cartas.',
+    versionLabel: 'Versión',
+    copyrightLabel: 'Copyright: Morales-Wise-Picone Team',
   },
   en: {
     appTag: 'Mobile scorekeeper',
@@ -77,6 +86,10 @@ const translations = {
     languageLabel: 'Language',
     spanish: 'Spanish',
     english: 'English',
+    fontSizeLabel: 'Font size',
+    fontNormal: 'Normal',
+    fontLarge: 'Large',
+    fontExtraLarge: 'Extra large',
     setupTag: 'New game',
     setupTitle: 'Initial setup',
     playersCount: 'players',
@@ -89,6 +102,7 @@ const translations = {
     zeroMissZeroTitle: 'No points awarded',
     zeroMissZeroDescription: 'If a player says 0 and misses, they gain no points.',
     firstDealerLabel: 'Player who starts dealing',
+    selectPlayer: 'Select player',
     back: 'Back',
     startGame: 'Start game',
     handOf: 'Hand',
@@ -122,6 +136,9 @@ const translations = {
     missingDeclaredError: 'Missing declared tricks for',
     integerDeclaredError: 'must have an integer number.',
     rangeDeclaredError: 'must have a value between',
+    firstDealerError: 'You must choose the first dealer.',
+    versionLabel: 'Version',
+    copyrightLabel: 'Copyright: Morales-Wise-Picone Team',
   },
 }
 
@@ -210,6 +227,7 @@ function App() {
   const [lastHandResult, setLastHandResult] = useState(null)
   const [error, setError] = useState('')
   const [language, setLanguage] = useState('en')
+  const [fontScale, setFontScale] = useState('normal')
 
   const t = translations[language]
 
@@ -222,6 +240,7 @@ function App() {
     setMatch(stored.match ?? null)
     setLastHandResult(stored.lastHandResult ?? null)
     setLanguage(stored.language ?? 'en')
+    setFontScale(stored.fontScale ?? 'normal')
   }, [])
 
   useEffect(() => {
@@ -231,9 +250,10 @@ function App() {
       match,
       lastHandResult,
       language,
+      fontScale,
     })
     localStorage.setItem(STORAGE_KEY, payload)
-  }, [screen, setup, match, lastHandResult, language])
+  }, [screen, setup, match, lastHandResult, language, fontScale])
 
   const currentHandCards = match ? match.sequence[match.currentHandIndex] : null
   const ranking = useMemo(() => (match ? rankPlayers(match.players) : []), [match])
@@ -295,7 +315,7 @@ function App() {
     }
 
     if (!setup.firstDealerId) {
-      setError(language === 'es' ? 'Debés indicar quién comienza dando cartas.' : 'You must choose the first dealer.')
+      setError(t.firstDealerError)
       return
     }
 
@@ -330,9 +350,7 @@ function App() {
         const input = match.currentInputs[player.id]
         const declaredValue = Number(input.declared)
         if (input.declared === '') {
-          return language === 'es'
-            ? `${t.missingDeclaredError} ${player.name}.`
-            : `${t.missingDeclaredError} ${player.name}.`
+          return `${t.missingDeclaredError} ${player.name}.`
         }
         if (!Number.isInteger(declaredValue)) {
           return `${player.name} ${t.integerDeclaredError}`
@@ -454,7 +472,7 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell font-${fontScale}`}>
       <header className="topbar">
         <div>
           <p className="eyebrow">{t.appTag}</p>
@@ -469,30 +487,58 @@ function App() {
         </div>
       </header>
 
+      <section className="panel preferences-panel">
+        <div className="preference-group">
+          <span>{t.languageLabel}</span>
+          <div className="segmented-control">
+            <button
+              type="button"
+              className={language === 'es' ? 'active' : ''}
+              onClick={() => setLanguage('es')}
+            >
+              {t.spanish}
+            </button>
+            <button
+              type="button"
+              className={language === 'en' ? 'active' : ''}
+              onClick={() => setLanguage('en')}
+            >
+              {t.english}
+            </button>
+          </div>
+        </div>
+        <div className="preference-group">
+          <span>{t.fontSizeLabel}</span>
+          <div className="segmented-control segmented-control-3">
+            <button
+              type="button"
+              className={fontScale === 'normal' ? 'active' : ''}
+              onClick={() => setFontScale('normal')}
+            >
+              {t.fontNormal}
+            </button>
+            <button
+              type="button"
+              className={fontScale === 'large' ? 'active' : ''}
+              onClick={() => setFontScale('large')}
+            >
+              {t.fontLarge}
+            </button>
+            <button
+              type="button"
+              className={fontScale === 'xlarge' ? 'active' : ''}
+              onClick={() => setFontScale('xlarge')}
+            >
+              {t.fontExtraLarge}
+            </button>
+          </div>
+        </div>
+      </section>
+
       {error ? <div className="alert-error">{error}</div> : null}
 
       {screen === 'home' && (
         <section className="panel hero-panel">
-          <div className="language-switcher">
-            <span>{t.languageLabel}</span>
-            <div className="segmented-control">
-              <button
-                type="button"
-                className={language === 'es' ? 'active' : ''}
-                onClick={() => setLanguage('es')}
-              >
-                {t.spanish}
-              </button>
-              <button
-                type="button"
-                className={language === 'en' ? 'active' : ''}
-                onClick={() => setLanguage('en')}
-              >
-                {t.english}
-              </button>
-            </div>
-          </div>
-
           <h2>{t.controlFromPhone}</h2>
           <p>{t.homeDescription}</p>
           <button type="button" className="primary-button" onClick={() => setScreen('setup')}>
@@ -561,7 +607,7 @@ function App() {
               value={setup.firstDealerId}
               onChange={(event) => setSetup((current) => ({ ...current, firstDealerId: event.target.value }))}
             >
-              <option value="">{language === 'es' ? 'Seleccionar jugador' : 'Select player'}</option>
+              <option value="">{t.selectPlayer}</option>
               {setup.players.map((player, index) => (
                 <option key={player.id} value={player.id}>
                   {player.name.trim() || `${t.playerPlaceholder} ${index + 1}`}
@@ -644,7 +690,7 @@ function App() {
             {match.players.map((player) => {
               const input = match.currentInputs[player.id]
               return (
-                <article className="player-card" key={player.id}>
+                <article className="player-card compact-player-card" key={player.id}>
                   <div className="player-card-header">
                     <div>
                       <h3>{player.name}</h3>
@@ -654,30 +700,34 @@ function App() {
                     </div>
                   </div>
 
-                  <label className="field-label" htmlFor={`declared-${player.id}`}>
-                    {t.declaredTricks}
-                  </label>
-                  <input
-                    id={`declared-${player.id}`}
-                    className="declared-input"
-                    type="number"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    min="0"
-                    max={currentHandCards}
-                    value={input.declared}
-                    onChange={(event) => updateHandInput(player.id, 'declared', event.target.value)}
-                    placeholder="0"
-                  />
+                  <div className="declared-row">
+                    <div className="declared-field">
+                      <label className="field-label" htmlFor={`declared-${player.id}`}>
+                        {t.declaredTricks}
+                      </label>
+                      <input
+                        id={`declared-${player.id}`}
+                        className="declared-input"
+                        type="number"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        min="0"
+                        max={currentHandCards}
+                        value={input.declared}
+                        onChange={(event) => updateHandInput(player.id, 'declared', event.target.value)}
+                        placeholder="0"
+                      />
+                    </div>
 
-                  <button
-                    type="button"
-                    className={`toggle-hit ${input.hit ? 'is-hit' : ''}`}
-                    onClick={() => updateHandInput(player.id, 'hit', !input.hit)}
-                  >
-                    <span className="toggle-dot" />
-                    {input.hit ? t.hit : t.miss}
-                  </button>
+                    <button
+                      type="button"
+                      className={`toggle-hit inline-toggle ${input.hit ? 'is-hit' : ''}`}
+                      onClick={() => updateHandInput(player.id, 'hit', !input.hit)}
+                    >
+                      <span className="toggle-dot" />
+                      {input.hit ? t.hit : t.miss}
+                    </button>
+                  </div>
                 </article>
               )
             })}
@@ -735,7 +785,7 @@ function App() {
             ))}
           </div>
 
-          <div className="actions">
+          <div className="actions actions-3">
             <button type="button" className="ghost-button" onClick={() => setScreen('history')}>
               {t.seeHistory}
             </button>
@@ -851,7 +901,12 @@ function App() {
         </section>
       )}
 
-      <footer className="app-footer">Copyright: Morales-Wise-Picone Team</footer>
+      <footer className="app-footer">
+        <span>{t.copyrightLabel}</span>
+        <span>
+          {t.versionLabel}: {APP_VERSION}
+        </span>
+      </footer>
     </div>
   )
 }
