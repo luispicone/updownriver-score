@@ -31,6 +31,7 @@ The current version allows users to:
 - persist the in-progress match locally
 - show a persistent copyright footer
 - show the current version number in the footer
+- allow reopening the most recently closed hand to correct it
 
 The current version **does not include**:
 
@@ -177,6 +178,7 @@ When closing the hand:
 - stores the hand in history
 - shows the hand result
 - allows moving to the next hand
+- allows going back and reopening the just-closed hand to correct data
 
 ### 6.5 End match
 After hand 14:
@@ -322,6 +324,7 @@ Show the summary of the hand that was just closed.
 ### Main actions
 - **Next hand** button
 - **See history** button
+- **Back** button to reopen the just-closed hand and correct it
 - button to start a new game from zero
 
 If it was the last hand:
@@ -363,8 +366,7 @@ For each hand:
   - total after that hand
 
 ### Note
-For the MVP, history is read-only.
-A future version may allow editing previous hands.
+For the MVP, history is still read-only for older hands, but the most recently closed hand can be reopened immediately from the result screen to correct mistakes.
 
 ### Additional action
 - option to start a new game from zero
@@ -514,7 +516,7 @@ Suggested fields:
 - ability to start a fresh game from zero at any time
 - persistent footer with text:
   - **Copyright: Morales-Wise-Picone Team**
-  - **Version 2.0**
+  - **Version 2.2**
 
 ---
 
@@ -562,6 +564,7 @@ The current version is considered correct if it allows:
 16. being deployable on Vercel
 17. allowing font size changes for accessibility
 18. showing the current version in the footer
+19. allowing the most recently closed hand to be reopened immediately for correction
 
 ---
 
@@ -578,4 +581,4 @@ The most important functional decisions in this version are:
 - using English as the default language
 - enabling easy free deployment through Vercel
 
-The result is a functional, publishable MVP ready for further iteration.
+The result is a functional, publishable MVP ready for further iteration. The currently documented version is **2.2**.

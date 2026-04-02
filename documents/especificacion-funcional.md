@@ -31,6 +31,7 @@ La versión actual permite:
 - persistir localmente el estado de la partida en curso
 - mostrar un footer persistente con copyright
 - mostrar número de versión visible en el footer
+- permitir reabrir la última mano cerrada para corregirla
 
 La versión actual **no incluye**:
 
@@ -177,6 +178,7 @@ Al cerrar la mano:
 - guarda la mano en el historial
 - muestra el resultado de la mano
 - permite avanzar a la siguiente mano
+- permite volver atrás y reabrir la mano recién cerrada para corregir datos
 
 ### 6.5 Finalizar partida
 Al terminar la mano 14:
@@ -322,6 +324,7 @@ Mostrar el resumen de la mano recién cerrada.
 ### Acciones principales
 - botón **Siguiente mano**
 - botón **Ver historial**
+- botón **Atrás** para reabrir la mano recién cerrada y corregirla
 - botón para comenzar una nueva partida desde cero
 
 Si era la última mano:
@@ -363,8 +366,7 @@ Por cada mano:
   - total acumulado luego de esa mano
 
 ### Nota
-Para el MVP, el historial es solo de lectura.
-Una futura versión puede permitir editar manos anteriores.
+Para el MVP, el historial sigue siendo de lectura respecto de manos anteriores más viejas, pero la mano recién cerrada sí puede reabrirse inmediatamente desde la pantalla de resultado para corregir errores.
 
 ### Acción adicional
 - opción para comenzar una nueva partida desde cero
@@ -512,7 +514,7 @@ Campos sugeridos:
 - opción para reiniciar la partida desde cero en cualquier momento
 - footer persistente con texto:
   - **Copyright: Morales-Wise-Picone Team**
-  - **Versión 2.0**
+  - **Versión 2.2**
 
 ---
 
@@ -560,6 +562,7 @@ La versión actual se considera correcta si permite:
 16. poder desplegarse correctamente en Vercel
 17. permitir cambiar el tamaño de fuente para accesibilidad
 18. mostrar la versión actual en el footer
+19. permitir reabrir inmediatamente la última mano cerrada para corregirla
 
 ---
 
@@ -576,4 +579,4 @@ Las decisiones funcionales más importantes de esta versión son:
 - dejar inglés como idioma por defecto
 - permitir despliegue simple y gratuito en Vercel
 
-El resultado es un MVP ya funcional, publicable y listo para seguir iterando.
+El resultado es un MVP ya funcional, publicable y listo para seguir iterando. La versión documentada actual es la **2.2**.
