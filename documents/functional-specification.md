@@ -516,7 +516,7 @@ Suggested fields:
 - ability to start a fresh game from zero at any time
 - persistent footer with text:
   - **Copyright: Morales-Wise-Picone Team**
-  - **Version 2.2**
+  - **Version 2.3**
 
 ---
 
@@ -564,7 +564,8 @@ The current version is considered correct if it allows:
 16. being deployable on Vercel
 17. allowing font size changes for accessibility
 18. showing the current version in the footer
-19. allowing the most recently closed hand to be reopened immediately for correction
+19. allowing only the most recently closed hand to be reopened for correction
+20. asking for confirmation before discarding an in-progress game when starting a new one
 
 ---
 
@@ -581,4 +582,4 @@ The most important functional decisions in this version are:
 - using English as the default language
 - enabling easy free deployment through Vercel
 
-The result is a functional, publishable MVP ready for further iteration. The currently documented version is **2.2**.
+The result is a functional, publishable MVP ready for further iteration. The currently documented version is **2.3**.

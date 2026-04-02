@@ -3,7 +3,7 @@ import './App.css'
 
 const HAND_SEQUENCE = [7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7]
 const STORAGE_KEY = 'updownriver-score-state'
-const APP_VERSION = '2.2'
+const APP_VERSION = '2.3'
 
 const translations = {
   es: {
@@ -321,7 +321,7 @@ function App() {
 
     const newMatch = buildMatch(trimmedPlayers, setup.zeroMissRule, setup.firstDealerId)
     setMatch(newMatch)
-    setLastHandResult(null)
+    setLastHandResult(lastHandResult)
     setError('')
     setScreen('hand')
   }
@@ -484,7 +484,16 @@ function App() {
     setScreen('hand')
   }
 
-  const resetAll = () => {
+  const resetAll = (force = false) => {
+    if (!force && match?.status === 'playing') {
+      const confirmed = window.confirm(
+        language === 'es'
+          ? 'Hay una partida en curso. ¿Seguro querés descartarla y empezar una nueva?'
+          : 'There is a game in progress. Are you sure you want to discard it and start a new one?',
+      )
+      if (!confirmed) return
+    }
+
     setSetup(initialSetupState)
     setMatch(null)
     setLastHandResult(null)
@@ -586,7 +595,7 @@ function App() {
               <button type="button" className="secondary-button" onClick={() => setScreen('hand')}>
                 {t.continueCurrentGame}
               </button>
-              <button type="button" className="ghost-button" onClick={resetAll}>
+              <button type="button" className="ghost-button" onClick={() => resetAll()}>
                 {t.startFreshGame}
               </button>
             </>
@@ -774,7 +783,7 @@ function App() {
             <button type="button" className="primary-button sticky-button" onClick={closeHand}>
               {t.closeHand}
             </button>
-            <button type="button" className="ghost-button" onClick={resetAll}>
+            <button type="button" className="ghost-button" onClick={() => resetAll()}>
               {t.startFreshGame}
             </button>
           </div>
@@ -822,18 +831,17 @@ function App() {
             ))}
           </div>
 
-          <div className="actions actions-4">
-            <button type="button" className="ghost-button" onClick={() => setScreen('history')}>
-              {t.seeHistory}
-            </button>
-            <button type="button" className="ghost-button" onClick={resetAll}>
-              {t.startFreshGame}
-            </button>
+          <div className="actions">
             <button type="button" className="ghost-button" onClick={reopenLastHand}>
               {t.back}
             </button>
             <button type="button" className="primary-button" onClick={goToNextStep}>
               {match?.status === 'finished' ? t.seeFinalResult : t.nextHand}
+            </button>
+          </div>
+          <div className="actions single-action">
+            <button type="button" className="ghost-button" onClick={() => resetAll()}>
+              {t.startFreshGame}
             </button>
           </div>
         </section>
@@ -869,7 +877,7 @@ function App() {
             <button type="button" className="secondary-button" onClick={() => setScreen('history')}>
               {t.fullHistory}
             </button>
-            <button type="button" className="ghost-button" onClick={resetAll}>
+            <button type="button" className="ghost-button" onClick={() => resetAll()}>
               {t.newGame}
             </button>
           </div>
@@ -934,7 +942,7 @@ function App() {
             >
               {t.back}
             </button>
-            <button type="button" className="ghost-button" onClick={resetAll}>
+            <button type="button" className="ghost-button" onClick={() => resetAll()}>
               {t.startFreshGame}
             </button>
           </div>

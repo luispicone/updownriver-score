@@ -260,7 +260,8 @@ input:focus,
 .actions,
 .actions.stacked,
 .actions.actions-3,
-.actions.actions-4 {
+.actions.actions-4,
+.actions.single-action {
   display: grid;
   gap: 0.75rem;
   margin-top: 1rem;
@@ -537,5 +538,9 @@ input:focus,
 
   .actions.actions-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .actions.single-action {
+    grid-template-columns: 1fr;
   }
 }

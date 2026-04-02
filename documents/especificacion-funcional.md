@@ -323,9 +323,9 @@ Mostrar el resumen de la mano recién cerrada.
 
 ### Acciones principales
 - botón **Siguiente mano**
-- botón **Ver historial**
-- botón **Atrás** para reabrir la mano recién cerrada y corregirla
-- botón para comenzar una nueva partida desde cero
+- botón **Atrás** para reabrir únicamente la última mano recién cerrada y corregirla
+- botón **Siguiente mano**
+- botón para comenzar una nueva partida desde cero ubicado debajo de los demás botones
 
 Si era la última mano:
 - botón **Ver resultado final**
@@ -514,7 +514,7 @@ Campos sugeridos:
 - opción para reiniciar la partida desde cero en cualquier momento
 - footer persistente con texto:
   - **Copyright: Morales-Wise-Picone Team**
-  - **Versión 2.2**
+  - **Versión 2.3**
 
 ---
 
@@ -562,7 +562,8 @@ La versión actual se considera correcta si permite:
 16. poder desplegarse correctamente en Vercel
 17. permitir cambiar el tamaño de fuente para accesibilidad
 18. mostrar la versión actual en el footer
-19. permitir reabrir inmediatamente la última mano cerrada para corregirla
+19. permitir reabrir únicamente la última mano cerrada para corregirla
+20. pedir confirmación antes de descartar una partida en curso al iniciar una nueva
 
 ---
 
@@ -579,4 +580,4 @@ Las decisiones funcionales más importantes de esta versión son:
 - dejar inglés como idioma por defecto
 - permitir despliegue simple y gratuito en Vercel
 
-El resultado es un MVP ya funcional, publicable y listo para seguir iterando. La versión documentada actual es la **2.2**.
+El resultado es un MVP ya funcional, publicable y listo para seguir iterando. La versión documentada actual es la **2.3**.
