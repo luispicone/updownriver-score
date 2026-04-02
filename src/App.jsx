@@ -661,6 +661,8 @@ function App() {
                     id={`declared-${player.id}`}
                     className="declared-input"
                     type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     min="0"
                     max={currentHandCards}
                     value={input.declared}
