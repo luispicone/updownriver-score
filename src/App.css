@@ -9,8 +9,16 @@
   font-size: 1.08rem;
 }
 
+.app-shell.font-large .declared-input {
+  font-size: 1.75rem;
+}
+
 .app-shell.font-xlarge {
   font-size: 1.18rem;
+}
+
+.app-shell.font-xlarge .declared-input {
+  font-size: 2rem;
 }
 
 .topbar {
@@ -280,8 +288,8 @@ input:focus,
   grid-template-columns: repeat(2, minmax(0, 1fr));
   background: rgba(30, 41, 59, 0.95);
   border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: 14px;
-  padding: 0.2rem;
+  border-radius: 12px;
+  padding: 0.16rem;
 }
 
 .segmented-control.segmented-control-3 {
@@ -292,10 +300,11 @@ input:focus,
   border: none;
   background: transparent;
   color: #cbd5e1;
-  padding: 0.6rem 0.9rem;
-  border-radius: 10px;
+  padding: 0.42rem 0.72rem;
+  border-radius: 9px;
   cursor: pointer;
   font-weight: 700;
+  min-height: 2.35rem;
 }
 
 .segmented-control button.active {
@@ -322,15 +331,17 @@ input:focus,
 }
 
 .declared-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 168px;
+  display: flex;
   gap: 0.75rem;
   align-items: end;
+  flex-wrap: nowrap;
 }
 
 .declared-field {
   display: grid;
   gap: 0.45rem;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .declared-input {
@@ -351,6 +362,10 @@ input:focus,
 
 .inline-toggle {
   align-self: end;
+  flex: 0 0 150px;
+  width: 150px;
+  min-height: 3.45rem;
+  white-space: nowrap;
 }
 
 .toggle-hit.is-hit {
@@ -494,13 +509,10 @@ input:focus,
   gap: 0.25rem;
 }
 
-@media (max-width: 640px) {
-  .declared-row {
-    grid-template-columns: 1fr;
-  }
-
+@media (max-width: 380px) {
   .inline-toggle {
-    width: 100%;
+    flex-basis: 128px;
+    width: 128px;
   }
 }
 

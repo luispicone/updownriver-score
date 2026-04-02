@@ -266,7 +266,7 @@ Each player is shown in a card or row with:
 - player name
 - current total
 - numeric field: **Declared tricks**
-- state control: **Hit / Missed**, positioned to the right of the numeric field to keep the list more compact and tidy
+- state control: **Hit / Missed**, positioned to the right of the numeric field, without dropping below it, to keep the list more compact and tidy
 
 ### Per-player interaction
 
@@ -419,6 +419,7 @@ Therefore the UX must prioritize:
 - immediate color feedback
 - simple language switcher on home screen
 - global font size selector on the home screen
+- the font size change must also affect the main numeric trick input
 - persistent footer with copyright and visible version
 
 ---
@@ -513,7 +514,7 @@ Suggested fields:
 - ability to start a fresh game from zero at any time
 - persistent footer with text:
   - **Copyright: Morales-Wise-Picone Team**
-  - **Version 1.5**
+  - **Version 2.0**
 
 ---
 

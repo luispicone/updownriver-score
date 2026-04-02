@@ -266,7 +266,7 @@ Cada jugador se muestra en una tarjeta o fila con:
 - nombre del jugador
 - total actual
 - campo numérico: **Dijo / Declared tricks**
-- control de estado: **Acertó / No acertó** o **Hit / Missed**, ubicado a la derecha del input numérico para formar una lista más compacta y prolija
+- control de estado: **Acertó / No acertó** o **Hit / Missed**, ubicado a la derecha del input numérico, sin bajar debajo del campo, para formar una lista más compacta y prolija
 
 ### Interacción por jugador
 
@@ -512,7 +512,7 @@ Campos sugeridos:
 - opción para reiniciar la partida desde cero en cualquier momento
 - footer persistente con texto:
   - **Copyright: Morales-Wise-Picone Team**
-  - **Versión 1.5**
+  - **Versión 2.0**
 
 ---
 
