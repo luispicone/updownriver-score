@@ -185,7 +185,7 @@ Al terminar la mano 14:
 - la app muestra el ranking final
 - permite revisar historial
 - permite comenzar una nueva partida
-- permite repetir con los mismos jugadores
+- permite repetir con los mismos jugadores pasando nuevamente por la configuración inicial para poder cambiar quién reparte primero
 
 ---
 
@@ -514,7 +514,7 @@ Campos sugeridos:
 - opción para reiniciar la partida desde cero en cualquier momento
 - footer persistente con texto:
   - **Copyright: Morales-Wise-Picone Team**
-  - **Versión 2.3**
+  - **Versión 2.4**
 
 ---
 
@@ -564,6 +564,7 @@ La versión actual se considera correcta si permite:
 18. mostrar la versión actual en el footer
 19. permitir reabrir únicamente la última mano cerrada para corregirla
 20. pedir confirmación antes de descartar una partida en curso al iniciar una nueva
+21. permitir cambiar quién reparte primero al reiniciar con los mismos jugadores
 
 ---
 
@@ -580,4 +581,4 @@ Las decisiones funcionales más importantes de esta versión son:
 - dejar inglés como idioma por defecto
 - permitir despliegue simple y gratuito en Vercel
 
-El resultado es un MVP ya funcional, publicable y listo para seguir iterando. La versión documentada actual es la **2.3**.
+El resultado es un MVP ya funcional, publicable y listo para seguir iterando. La versión documentada actual es la **2.4**.
